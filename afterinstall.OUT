@@ -1,0 +1,70 @@
+symlinks: net netccitt netimp netinet netiso netns nfs sys ufs vm
+rm -f /usr/include/machine
+ln -s /sys/i386/include /usr/include/machine
+chown bin.bin /usr/include/machine
+installing a.out.h ar.h assert.h bitstring.h ctype.h db.h dirent.h disktab.h fstab.h fts.h glob.h grp.h kvm.h limits.h locale.h math.h memory.h ndbm.h netdb.h nlist.h paths.h pwd.h ranlib.h regexp.h resolv.h setjmp.h sgtty.h stab.h stdarg.h stddef.h stdio.h stdlib.h string.h strings.h struct.h sysexits.h time.h ttyent.h tzfile.h unistd.h utime.h utmp.h varargs.h vis.h
+installing arpa protocols
+installing errno.h fcntl.h signal.h syslog.h termios.h
+installing float.h frame.h
+install -c -o bin -g bin -m 444 bsd.README bsd.doc.mk bsd.lib.mk bsd.man.mk bsd.own.mk  bsd.prog.mk bsd.subdir.mk sys.mk  /usr/share/mk
+rm -f a.out [Ee]rrs mklog core config config.o main.o lang.o mkioconf.o mkmakefile.o mkglue.o mkheaders.o mkswapconf.o y.tab.h lang.c config.c y.tab.c        config.0
+yacc -d /usr/src/usr.sbin/config/config.y
+mv y.tab.c config.c
+cc -O -I. -I/usr/src/usr.sbin/config  -c config.c
+cc -O -I. -I/usr/src/usr.sbin/config  -c /usr/src/usr.sbin/config/main.c
+lex  /usr/src/usr.sbin/config/lang.l
+mv lex.yy.c lang.c
+cc -O -I. -I/usr/src/usr.sbin/config  -c lang.c
+cc -O -I. -I/usr/src/usr.sbin/config  -c /usr/src/usr.sbin/config/mkioconf.c
+cc -O -I. -I/usr/src/usr.sbin/config  -c /usr/src/usr.sbin/config/mkmakefile.c
+cc -O -I. -I/usr/src/usr.sbin/config  -c /usr/src/usr.sbin/config/mkglue.c
+cc -O -I. -I/usr/src/usr.sbin/config  -c /usr/src/usr.sbin/config/mkheaders.c
+cc -O -I. -I/usr/src/usr.sbin/config  -c /usr/src/usr.sbin/config/mkswapconf.c
+cc  -o config config.o main.o lang.o mkioconf.o mkmakefile.o mkglue.o mkheaders.o mkswapconf.o -lln
+nroff -mandoc /usr/src/usr.sbin/config/config.8 > config.0
+install -c -s -o bin -g bin -m 555  config /usr/sbin
+install -c -o bin -g bin -m 444 config.0 /usr/share/man/cat8
+rm -f a.out [Ee]rrs mklog core config config.o main.o lang.o mkioconf.o mkmakefile.o mkglue.o mkheaders.o mkswapconf.o y.tab.h lang.c config.c y.tab.c        config.0
+rm -f a.out [Ee]rrs mklog core bugfiler bugfiler.o error.o gethead.o process.o redist.o reply.o  sendbug.0       bugfiler.0
+cc -O -I/usr/src/libexec/bugfiler -D"BUGS_HOME \"owner-386bsd_bugs@bsd.coe.montana.edu\""  -c /usr/src/libexec/bugfiler/bugfiler.c
+cc -O -I/usr/src/libexec/bugfiler -D"BUGS_HOME \"owner-386bsd_bugs@bsd.coe.montana.edu\""  -c /usr/src/libexec/bugfiler/error.c
+cc -O -I/usr/src/libexec/bugfiler -D"BUGS_HOME \"owner-386bsd_bugs@bsd.coe.montana.edu\""  -c /usr/src/libexec/bugfiler/gethead.c
+cc -O -I/usr/src/libexec/bugfiler -D"BUGS_HOME \"owner-386bsd_bugs@bsd.coe.montana.edu\""  -c /usr/src/libexec/bugfiler/process.c
+cc -O -I/usr/src/libexec/bugfiler -D"BUGS_HOME \"owner-386bsd_bugs@bsd.coe.montana.edu\""  -c /usr/src/libexec/bugfiler/redist.c
+cc -O -I/usr/src/libexec/bugfiler -D"BUGS_HOME \"owner-386bsd_bugs@bsd.coe.montana.edu\""  -c /usr/src/libexec/bugfiler/reply.c
+cc  -o bugfiler bugfiler.o error.o gethead.o process.o redist.o reply.o 
+nroff -mandoc /usr/src/libexec/bugfiler/sendbug.1 > sendbug.0
+nroff -mandoc /usr/src/libexec/bugfiler/bugfiler.8 > bugfiler.0
+install -c -o bin -g bin -m 555  /usr/src/libexec/bugfiler/sendbug.sh /usr/bin/sendbug
+install -c -o bin -g bin -m 444 /usr/src/libexec/bugfiler/bugformat  /usr/share/misc
+install -c -s -o root -g bin -m 4555  bugfiler /usr/libexec
+install -c -o bin -g bin -m 444 sendbug.0 /usr/share/man/cat1
+install -c -o bin -g bin -m 444 bugfiler.0 /usr/share/man/cat8
+rm -f a.out [Ee]rrs mklog core bugfiler bugfiler.o error.o gethead.o process.o redist.o reply.o  sendbug.0       bugfiler.0
+rm -f a.out [Ee]rrs mklog core init          
+cc -O  -o init /usr/src/sbin/init/init.c -lutil
+install -c -s -o bin -g bin -m 555  init /sbin
+rm -f a.out [Ee]rrs mklog core init          
+README README README README README README README README README README
+
+NOTE: There have been MANY CHANGES to the GENERICISA KERNEL, you
+      may want to look at it if you are using a copy of it for your
+      kernel.
+
+It is recomended that you follow these steps to rebuild your kernel
+at this time:
+
+          rm -r /sys/compile/*			#HIGHLY RECOMMENDED!
+          cd /sys/i386/conf
+          config YOUR_KERNEL_NAME
+          cd /sys/compile/YOUR_KERNEL_NAME
+          make depend
+          make
+          mv /386bsd /386bsd.old
+          cp 386bsd /386bsd
+          sync; sync; sync;
+          reboot
+
+Please do this before attempting to run buildworld.sh
+
+README README README README README README README README README README
